@@ -1,4 +1,4 @@
-import {GeoJsonObject, GeoJsonProperties, Geometry, LineString, Point} from 'geojson';
+import {Feature, GeoJsonObject, GeoJsonProperties, Geometry, LineString, Point} from 'geojson';
 
 type GeometryProperties<G extends Geometry> = G extends Point
   ? PointProperties
@@ -7,25 +7,7 @@ type GeometryProperties<G extends Geometry> = G extends Point
   : G extends Media
   ? MediaProperties
   : never;
-export type WmFeature<G extends Geometry | null> = Feature<G, GeometryProperties<G>>;
-
-export interface Feature<G extends Geometry | null = Geometry, P = GeoJsonProperties>
-  extends GeoJsonObject {
-  /**
-   * The feature's geometry
-   */
-  geometry: G;
-  /**
-   * A value that uniquely identifies this feature in a
-   * https://tools.ietf.org/html/rfc7946#section-3.2.
-   */
-  id?: string | number | undefined;
-  /**
-   * Properties associated with this feature.
-   */
-  properties: P;
-  type: 'Feature';
-}
+export type WmFeature<G extends Geometry> = Feature<G, GeometryProperties<G>>;
 
 export interface LineStringProperties extends WmProperties {
   name: string;
@@ -49,7 +31,7 @@ export interface PointProperties extends WmProperties {
   };
 }
 
-export interface WmFeatureCollection<G extends Geometry> {
+export interface WmFeatureCollection<G extends Geometry = Geometry> {
   features: WmFeature<G>[];
   properties?: GeoJsonProperties;
   type: 'FeatureCollection';
