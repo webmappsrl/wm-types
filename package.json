@@ -1,0 +1,22 @@
+{
+  "name": "wm-types",
+  "version": "0.0.1",
+  "description": "Repository di tipi condivisi per estensioni GeoJSON e interfacce personalizzate.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+<URL_DEL_TUO_REPOSITORY>"
+  },
+  "author": "Il Tuo Nome",
+  "license": "MIT",
+  "dependencies": {
+    "geojson": "^0.5.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0"
+  }
+}
