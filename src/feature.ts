@@ -1,4 +1,4 @@
-import {Feature, GeoJsonObject, GeoJsonProperties, Geometry, LineString, Point} from 'geojson';
+import {Feature, GeoJsonProperties, Geometry, LineString, Point} from 'geojson';
 
 type GeometryProperties<G extends Geometry> = G extends Point
   ? PointProperties
