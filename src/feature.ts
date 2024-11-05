@@ -32,8 +32,8 @@ export interface PointProperties extends WmProperties {
   uuid: string;
 }
 
-export interface WmFeatureCollection<G extends Geometry = Geometry> {
-  features: WmFeature<G>[];
+export interface WmFeatureCollection<G extends Geometry = Geometry,P = GeoJsonProperties> {
+  features: WmFeature<G,P>[];
   properties?: GeoJsonProperties;
   type: 'FeatureCollection';
 }
