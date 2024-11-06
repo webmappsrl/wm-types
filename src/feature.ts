@@ -14,6 +14,18 @@ export interface LineStringProperties extends WmProperties {
   name: string;
 }
 
+export interface Location {
+  accuracy: number;
+  altitude: number | null;
+  altitudeAccuracy: number | null;
+  bearing: number | null;
+  latitude: number;
+  longitude: number;
+  simulated: boolean;
+  speed: number | null;
+  time: number | null;
+}
+
 export interface Media extends Point {}
 
 export interface MediaProperties extends WmProperties {
@@ -28,6 +40,7 @@ export interface PointProperties extends WmProperties {
     display_name: string;
   };
   photos: Photo[];
+  position: Location;
   type: 'waypoint';
   uuid: string;
 }
