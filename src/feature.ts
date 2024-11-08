@@ -16,14 +16,14 @@ export interface LineStringProperties extends WmProperties {
 
 export interface Location {
   accuracy: number;
-  altitude: number | null;
-  altitudeAccuracy: number | null;
-  bearing: number | null;
+  altitude?: number ;
+  altitudeAccuracy: number ;
+  bearing? : number;
   latitude: number;
   longitude: number;
   simulated: boolean;
-  speed: number | null;
-  time: number | null;
+  speed?: number;
+  time?: number;
 }
 
 export interface Media extends Point {}
