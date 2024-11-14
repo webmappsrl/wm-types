@@ -1,5 +1,6 @@
 import {Feature, GeoJsonProperties, Geometry, LineString, Point} from 'geojson';
 import  {GalleryPhoto, Photo} from '@capacitor/camera';
+import {DeviceInfo} from '@capacitor/device';
 
 type GeometryProperties<G extends Geometry> = G extends Point
   ? PointProperties
@@ -11,9 +12,6 @@ type GeometryProperties<G extends Geometry> = G extends Point
 export type WmFeature<G extends Geometry,P = GeoJsonProperties> = Feature<G, P | GeometryProperties<G>>;
 
 export interface LineStringProperties extends WmProperties {
-  device: {
-    os: string;
-  };
   distanceFilter: number;
   locations: Location[];
   name: string;
@@ -49,6 +47,11 @@ export interface PointProperties extends WmProperties {
   type: 'waypoint';
 }
 
+export interface WmDeviceInfo extends DeviceInfo {
+  appVersion: string;
+  os: string;
+}
+
 export interface WmFeatureCollection<G extends Geometry = Geometry,P = GeoJsonProperties> {
   features: WmFeature<G,P>[];
   properties?: GeoJsonProperties;
@@ -56,8 +59,8 @@ export interface WmFeatureCollection<G extends Geometry = Geometry,P = GeoJsonPr
 }
 
 export interface WmProperties {
-  appVersion:string;
   app_id: string;
+  device: WmDeviceInfo;
   form?:{[key: string]: any}
 
   id?: number;
