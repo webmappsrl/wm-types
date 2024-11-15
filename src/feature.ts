@@ -11,7 +11,13 @@ type GeometryProperties<G extends Geometry> = G extends Point
 export type WmFeature<G extends Geometry,P = GeoJsonProperties> = Feature<G, P | GeometryProperties<G>>;
 
 export interface LineStringProperties extends WmProperties {
+  device: {
+    os: string;
+  };
+  distanceFilter: number;
+  locations: Location[];
   name: string;
+  photos: Photo[];
 }
 
 export interface Location {
@@ -33,7 +39,6 @@ export interface MediaProperties extends WmProperties {
 }
 
 export interface PointProperties extends WmProperties {
-  date: string;
   description: string;
   name:string
   nominatim?: {
@@ -42,7 +47,6 @@ export interface PointProperties extends WmProperties {
   photos: Photo[];
   position: Location;
   type: 'waypoint';
-  uuid: string;
 }
 
 export interface WmFeatureCollection<G extends Geometry = Geometry,P = GeoJsonProperties> {
@@ -57,6 +61,7 @@ export interface WmProperties {
   form?:{[key: string]: any}
 
   id?: number;
+  uuid: string;
 
   [key: string]: any;
 }
