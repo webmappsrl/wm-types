@@ -49,7 +49,6 @@ export interface PointProperties extends WmProperties {
 
 export interface WmDeviceInfo extends DeviceInfo {
   appVersion: string;
-  os: string;
 }
 
 export interface WmFeatureCollection<G extends Geometry = Geometry,P = GeoJsonProperties> {
