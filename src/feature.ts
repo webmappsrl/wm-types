@@ -1,5 +1,5 @@
 import {Feature, GeoJsonProperties, Geometry, LineString, Point} from 'geojson';
-import  {GalleryPhoto, Photo} from '@capacitor/camera';
+import {GalleryPhoto, Photo} from '@capacitor/camera';
 import {DeviceInfo} from '@capacitor/device';
 
 type GeometryProperties<G extends Geometry> = G extends Point
