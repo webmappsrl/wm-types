@@ -59,10 +59,12 @@ export interface WmFeatureCollection<G extends Geometry = Geometry,P = GeoJsonPr
 
 export interface WmProperties {
   app_id: string;
+  createdAt?: Date;
   device: WmDeviceInfo;
   form?:{[key: string]: any}
 
   id?: number;
+  updatedAt?: Date;
   uuid: string;
 
   [key: string]: any;
