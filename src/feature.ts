@@ -19,13 +19,13 @@ export interface LineStringProperties extends WmProperties {
 }
 
 export interface Location {
-  accuracy: number;
+  accuracy?: number;
   altitude?: number ;
-  altitudeAccuracy: number ;
+  altitudeAccuracy?: number ;
   bearing? : number;
   latitude: number;
   longitude: number;
-  simulated: boolean;
+  simulated?: boolean;
   speed?: number;
   time?: number;
 }
