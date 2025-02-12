@@ -6,23 +6,30 @@ type GeometryProperties<G extends Geometry> = G extends Point
   ? PointProperties
   : G extends LineString
   ? LineStringProperties
-  : G extends Media
-  ? MediaProperties
   : never;
-export type WmFeature<G extends Geometry,P = GeoJsonProperties> = Feature<G, P | GeometryProperties<G>>;
+export type WmFeature<G extends Geometry, P = GeoJsonProperties> = Feature<
+  G,
+  P | GeometryProperties<G>
+>;
+
+export interface Media extends Photo {
+  id?: number;
+  name?: string;
+  description?: string;
+}
 
 export interface LineStringProperties extends WmProperties {
   distanceFilter: number;
   locations: Location[];
   name: string;
-  photos: Photo[];
+  media: Media[];
 }
 
 export interface Location {
   accuracy?: number;
-  altitude?: number ;
-  altitudeAccuracy?: number ;
-  bearing? : number;
+  altitude?: number;
+  altitudeAccuracy?: number;
+  bearing?: number;
   latitude: number;
   longitude: number;
   simulated?: boolean;
@@ -30,19 +37,13 @@ export interface Location {
   time?: number;
 }
 
-export interface Media extends Point {}
-
-export interface MediaProperties extends WmProperties {
-  photo:Photo|GalleryPhoto
-}
-
 export interface PointProperties extends WmProperties {
   description: string;
-  name:string
+  name: string;
   nominatim?: {
     display_name: string;
   };
-  photos: Photo[];
+  media: Media[];
   position: Location;
   type: 'waypoint';
 }
@@ -51,8 +52,8 @@ export interface WmDeviceInfo extends DeviceInfo {
   appVersion: string;
 }
 
-export interface WmFeatureCollection<G extends Geometry = Geometry,P = GeoJsonProperties> {
-  features: WmFeature<G,P>[];
+export interface WmFeatureCollection<G extends Geometry = Geometry, P = GeoJsonProperties> {
+  features: WmFeature<G, P>[];
   properties?: GeoJsonProperties;
   type: 'FeatureCollection';
 }
@@ -61,7 +62,7 @@ export interface WmProperties {
   app_id: string;
   createdAt?: Date;
   device: WmDeviceInfo;
-  form?:{[key: string]: any}
+  form?: {[key: string]: any};
 
   id?: number;
   updatedAt?: Date;
