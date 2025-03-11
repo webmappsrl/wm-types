@@ -74,3 +74,10 @@ export interface WmProperties {
 export interface responseDeleteMedia {
   success: 'media deleted';
 }
+
+export interface LayerFeaturesCount {
+  [layerId: string]: {
+    tracks: number;
+    pois: number;
+  };
+}
