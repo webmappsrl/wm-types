@@ -75,9 +75,9 @@ export interface responseDeleteMedia {
   success: 'media deleted';
 }
 
-export interface LayerFeaturesCount {
-  [layerId: string]: {
-    tracks: number;
-    pois: number;
-  };
+export interface LayerFeatureCount {
+  tracks: number;
+  pois: number;
 }
+export type LayerId = string;
+export type LayerFeaturesCount = Record<LayerId, LayerFeatureCount>;
