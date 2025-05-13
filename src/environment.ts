@@ -3,6 +3,7 @@ export type Shards = Readonly<Record<string, Shard>>;
 
 export interface Environment {
   readonly production: boolean;
+  readonly debug?: boolean;
   readonly appId: number;
   readonly shardName: string;
   readonly shards: Shards;
