@@ -1,10 +1,11 @@
 export type Redirects = Readonly<Record<string, Redirect>>;
-export type Shards = Readonly<Record<string, Shard>>;
+export type ShardName = 'geohub' | 'geohub2' | 'osm2cai' | 'camminiditalia' | 'camminiditaliadev' | 'carg' | 'cargdev';
+export type Shards = Readonly<Record<ShardName, Shard>>;
 
 export interface Environment {
   readonly production: boolean;
   readonly appId: number;
-  readonly shardName: string;
+  readonly shardName: ShardName;
   readonly shards: Shards;
   readonly redirects: Redirects;
 }
@@ -15,6 +16,6 @@ export interface Shard {
   readonly awsApi: string;
 }
 export interface Redirect {
-  readonly shardName: string;
+  readonly shardName: ShardName;
   readonly appId: number;
 }
