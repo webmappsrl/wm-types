@@ -4,6 +4,7 @@ export type Shards = Readonly<Record<ShardName, Shard>>;
 
 export interface Environment {
   readonly production: boolean;
+  readonly debug?: boolean;
   readonly appId: number;
   readonly shardName: ShardName;
   readonly shards: Shards;
