@@ -1,5 +1,13 @@
 export type Redirects = Readonly<Record<string, Redirect>>;
-export type ShardName = 'geohub' | 'geohub2' | 'osm2cai' | 'camminiditalia' | 'camminiditaliadev' | 'carg' | 'cargdev';
+export type ShardName =
+  | 'geohub'
+  | 'geohub2'
+  | 'osm2cai'
+  | 'osm2caidev'
+  | 'camminiditalia'
+  | 'camminiditaliadev'
+  | 'carg'
+  | 'cargdev';
 export type Shards = Readonly<Record<ShardName, Shard>>;
 
 export interface Environment {
