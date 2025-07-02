@@ -43,10 +43,10 @@ export const shards: Shards = {
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/geohub2',
   },
   osm2cai: {
-    origin: 'https://osm2cai.webmapp.it',
-    elasticApi: 'https://elastic-json.webmapp.it/v2/search',
+    origin: 'https://osm2cai.cai.it',
+    elasticApi: 'https://osm2cai.cai.it/api/v2/search',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
-    awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/geohub',
+    awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2',
   },
   osm2caidev: {
     origin: 'https://osm2cai2.dev.maphub.it',
