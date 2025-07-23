@@ -1,4 +1,5 @@
 export type Redirects = Readonly<Record<string, Redirect>>;
+
 export type ShardName =
   | 'geohub'
   | 'geohubdev'
