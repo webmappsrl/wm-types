@@ -1,6 +1,7 @@
 export type Redirects = Readonly<Record<string, Redirect>>;
 export type ShardName =
   | 'geohub'
+  | 'geohubdev'
   | 'geohub2'
   | 'osm2cai'
   | 'osm2caidev'
@@ -35,6 +36,12 @@ export const shards: Shards = {
     elasticApi: 'https://elastic-json.webmapp.it/v2/search',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/geohub',
+  },
+    geohubdev: {
+    origin: 'https://geohub.dev.maphub.it',
+    elasticApi: 'http://geohub.dev.maphub.it:9200/v2/search',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'http://geohub.dev.maphub.it:9000/wmfe/geohub',
   },
   geohub2: {
     origin: 'https://geohub2.maphub.it',
