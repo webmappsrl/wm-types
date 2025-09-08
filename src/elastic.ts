@@ -1,3 +1,5 @@
+import {Language} from './language';
+
 export interface Elastic {
   [name: string]: any;
 }
@@ -14,9 +16,17 @@ export interface Hit {
   size?: any;
   taxonomyActivities: any;
   taxonomyWheres: string[];
+  taxonomyIcons: TaxonomyIcons;
   start?: number[];
   end?: number[];
   distanceFromCurrentLocation?: number;
+}
+
+export interface TaxonomyIcons {
+  [key: string]: {
+    label: Partial<Record<Language, string>>;
+    icon_name: string;
+  };
 }
 
 export interface Bucket {
