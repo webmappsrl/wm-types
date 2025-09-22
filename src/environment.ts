@@ -1,11 +1,14 @@
 export type Redirects = Readonly<Record<string, Redirect>>;
 
 export type ShardName =
+  | 'local'
   | 'geohub'
   | 'geohubdev'
   | 'geohub2'
   | 'osm2cai'
+  | 'osm2caiuat'
   | 'osm2caidev'
+  | 'osm2cailocal'
   | 'camminiditalia'
   | 'camminiditaliadev'
   | 'carg'
@@ -32,13 +35,19 @@ export interface Redirect {
 }
 
 export const shards: Shards = {
+  local: {
+    origin: 'http://127.0.0.1:8000/',
+    elasticApi: 'http://localhost:9200/api/v2/search',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'http://localhost:9002/wmfe/osm2cai2',
+  },
   geohub: {
     origin: 'https://geohub.webmapp.it',
     elasticApi: 'https://elastic-json.webmapp.it/v2/search',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/geohub',
   },
-    geohubdev: {
+  geohubdev: {
     origin: 'https://geohub.dev.maphub.it',
     elasticApi: 'http://geohub.dev.maphub.it:9200/v2/search',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
@@ -56,11 +65,23 @@ export const shards: Shards = {
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2',
   },
+  osm2caiuat: {
+    origin: 'https://osm2cai2.uat.maphub.it',
+    elasticApi: 'https://osm2cai2.uat.maphub.it/api/v2/elasticsearch',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2uat',
+  },
   osm2caidev: {
     origin: 'https://osm2cai2.dev.maphub.it',
     elasticApi: 'https://osm2cai2.dev.maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2dev',
+  },
+  osm2cailocal: {
+    origin: 'http://127.0.0.1:8000/',
+    elasticApi: 'http://localhost:9200/api/v2/search',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'http://localhost:9002/wmfe/osm2cai2',
   },
   camminiditalia: {
     origin: 'https://camminiditalia.maphub.it',
