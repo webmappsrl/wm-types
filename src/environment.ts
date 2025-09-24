@@ -66,8 +66,8 @@ export const shards: Shards = {
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2',
   },
   osm2caiuat: {
-    origin: 'https://osm2cai2.uat.maphub.it',
-    elasticApi: 'https://osm2cai2.uat.maphub.it/api/v2/elasticsearch',
+    origin: 'https://osm2cai.uat.maphub.it',
+    elasticApi: 'https://osm2cai.uat.maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2uat',
   },
