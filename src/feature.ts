@@ -81,3 +81,5 @@ export interface LayerFeatureCount {
 }
 export type LayerId = string;
 export type LayerFeaturesCount = Record<LayerId, LayerFeatureCount>;
+
+export type SyncUgcTypes = 'poi' | 'track' | null;
