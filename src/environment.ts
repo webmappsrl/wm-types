@@ -51,7 +51,7 @@ export const shards: Shards = {
     origin: 'https://geohub.dev.maphub.it',
     elasticApi: 'http://geohub.dev.maphub.it:9200/v2/search',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
-    awsApi: 'http://geohub.dev.maphub.it:9000/wmfe/geohub',
+    awsApi: 'https://geohub.dev.maphub.it/wmfe/geohub',
   },
   geohub2: {
     origin: 'https://geohub2.maphub.it',
