@@ -6,6 +6,7 @@ export type ShardName =
   | 'geohubdev'
   | 'geohub2'
   | 'osm2cai'
+  | 'osm2caiprod'
   | 'osm2caiuat'
   | 'osm2caidev'
   | 'osm2cailocal'
@@ -62,6 +63,12 @@ export const shards: Shards = {
   osm2cai: {
     origin: 'https://osm2cai.cai.it',
     elasticApi: 'https://osm2cai.cai.it/api/v2/search',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2',
+  },
+  osm2caiprod: {
+    origin: 'https://osm2cai.prod.maphub.it',
+    elasticApi: 'https://osm2cai.prod.maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2',
   },
