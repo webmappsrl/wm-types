@@ -100,7 +100,7 @@ export const shards: Shards = {
     origin: 'https://camminiditalia.dev.maphub.it',
     elasticApi: 'https://camminiditalia.dev.maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
-    awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/camminiditaliadev',
+    awsApi: 'https://camminiditalia.dev.maphub.it/wmfe/camminiditaliadev',
   },
   carg: {
     origin: 'https://carg.geosciences-ir.it',
