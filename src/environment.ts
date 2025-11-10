@@ -134,8 +134,8 @@ export const redirects: Redirects = {
     appId: 63,
   },
   'maps.acquasorgente.cai.it': {
-    shardName: 'geohub',
-    appId: 58,
+    shardName: 'osm2cai',
+    appId: 3,
   },
   'maps.caipontedera.it': {
     shardName: 'geohub',
