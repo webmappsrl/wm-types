@@ -13,7 +13,10 @@ export type ShardName =
   | 'camminiditalia'
   | 'camminiditaliadev'
   | 'carg'
-  | 'cargdev';
+  | 'cargdev'
+  | 'ersafdev'
+  | 'forestasdev';
+
 export type Shards = Readonly<Record<ShardName, Shard>>;
 
 export interface Environment {
@@ -113,6 +116,18 @@ export const shards: Shards = {
     elasticApi: 'https://carg.maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/carg',
+  },
+  ersafdev: {
+    origin: 'https://ersaf.dev.maphub.it',
+    elasticApi: 'https://ersaf.dev.maphub.it/api/v2/elasticsearch',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'https://ersaf.dev.maphub.it/wmfe/ersafdev',
+  },
+  forestasdev: {
+    origin: 'https://forestas.dev.maphub.it',
+    elasticApi: 'https://forestas.dev.maphub.it/api/v2/elasticsearch',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'https://forestas.dev.maphub.it/wmfe/forestasdev',
   },
 };
 
