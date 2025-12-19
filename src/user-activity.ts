@@ -7,5 +7,4 @@ export type HomeResultTab = 'tracks' | 'pois' | null;
 /**
  * Type for filter type (always has a value, never null)
  */
-export type FilterType = 'tracks' | 'pois';
-
+export type FilterType = 'tracks' | 'pois' | null;
