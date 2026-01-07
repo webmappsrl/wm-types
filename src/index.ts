@@ -4,3 +4,4 @@ export * from './environment';
 export * from './language';
 export * from './privacy-agree';
 export * from './user-activity';
+export * from './posthog';
