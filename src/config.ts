@@ -20,4 +20,13 @@ export interface APP {
   poi_acquisition_form?: any;
   track_acquisition_form?: any;
   welcome?: string;
+  posthog: boolean;
+}
+
+export interface WEBAPP {
+  draw_poi_show: boolean;
+  draw_track_show: boolean;
+  editing_inline_show: boolean;
+  splash_screen_show: boolean;
+  posthog: boolean;
 }

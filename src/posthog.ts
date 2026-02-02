@@ -8,7 +8,7 @@
 export interface WmPosthogClient {
   capture(event: string, props?: WmPosthogProps): void | Promise<void>;
   identify(distinctId: string, props?: WmPosthogProps): void | Promise<void>;
-  initAndRegister(props: WmPosthogProps): void | Promise<void>;
+  initAndRegister(props: WmPosthogProps, enabled?: boolean): void | Promise<void>;
   reset(): void | Promise<void>;
 }
 

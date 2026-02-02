@@ -40,10 +40,10 @@ export interface Redirect {
 
 export const shards: Shards = {
   local: {
-    origin: 'http://127.0.0.1:8000/',
+    origin: 'http://127.0.0.1:8008/',
     elasticApi: 'http://localhost:9200/api/v2/search',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
-    awsApi: 'http://localhost:9002/wmfe/osm2cai2',
+    awsApi: 'http://localhost:9080/wmfe/osm2cai2',
   },
   geohub: {
     origin: 'https://geohub.webmapp.it',
