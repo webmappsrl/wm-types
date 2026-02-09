@@ -1,3 +1,5 @@
+import {Analytics} from './config';
+
 /**
  * Interfaccia UNICA usata dal tuo codice (posthog-js like)
  * - capture(event, props)
@@ -12,10 +14,7 @@ export interface WmPosthogClient {
   reset(): void | Promise<void>;
 }
 
-export interface WmPosthogInitOptions {
-  enabled?: boolean;
-  recordingProbability?: number; // 0-1, probabilità di registrazione video (es. 0.5 = 50%)
-}
+export type WmPosthogInitOptions = Partial<Analytics>;
 
 export interface WmPosthogConfig {
   apiKey: string;

@@ -20,6 +20,7 @@ export interface APP {
   poi_acquisition_form?: any;
   track_acquisition_form?: any;
   welcome?: string;
+  analytics: Analytics;
 }
 
 export interface WEBAPP {
@@ -27,6 +28,7 @@ export interface WEBAPP {
   draw_track_show: boolean;
   editing_inline_show: boolean;
   splash_screen_show: boolean;
+  analytics: Analytics;
 }
 
 export interface OPTIONS {
@@ -104,7 +106,6 @@ export interface OPTIONS {
   useCaiScaleStyle: boolean;
   useFeatureClassicSelectionStyle: boolean;
   voucherUrl?: string;
-  analytics: Analytics;
 }
 
 export interface CLUSTERING {
@@ -129,8 +130,7 @@ export interface APPDOWNLOADBUTTONS {
 }
 
 export interface Analytics {
-  appEnabled: boolean;
-  webappEnabled: boolean;
-  mobileEnabled: boolean;
-  recordingProbability: number;
+  enabled: boolean;
+  recordingEnabled: boolean;
+  recordingProbability?: number;
 }
