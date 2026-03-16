@@ -21,6 +21,7 @@ export interface APP {
   track_acquisition_form?: any;
   welcome?: string;
   analytics: Analytics;
+  minAppVersion?: string;
 }
 
 export interface WEBAPP {
