@@ -1,6 +1,7 @@
 import {Feature, GeoJsonProperties, Geometry, LineString, Point} from 'geojson';
 import {GalleryPhoto, Photo} from '@capacitor/camera';
 import {DeviceInfo} from '@capacitor/device';
+import {Language} from './language';
 
 type GeometryProperties<G extends Geometry> = G extends Point
   ? PointProperties
@@ -68,8 +69,19 @@ export interface WmProperties {
   updatedAt?: Date;
   uuid: string;
 
+  /**
+   * Mappa delle "where" tassonomiche.
+   * Esempio payload (una sola entry):
+   * `{ "R47250": { de: "Bladen", it: "Sappada", _admin_level: 8 } }`
+   */
+  taxonomy_where?: TaxonomyWhereMap;
+
   [key: string]: any;
 }
+
+export type TaxonomyWhereEntry = {_admin_level: number} & Partial<Record<Language, string | number>>;
+
+export type TaxonomyWhereMap = Record<string, TaxonomyWhereEntry>;
 
 export interface responseDeleteMedia {
   success: 'media deleted';
