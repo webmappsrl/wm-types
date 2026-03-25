@@ -15,7 +15,9 @@ export type ShardName =
   | 'carg'
   | 'cargdev'
   | 'ersafdev'
-  | 'forestasdev';
+  | 'forestas'
+  | 'forestasdev'
+  | 'forestasuat';
 
 export type Shards = Readonly<Record<ShardName, Shard>>;
 
@@ -123,11 +125,23 @@ export const shards: Shards = {
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://ersaf.dev.maphub.it/wmfe/ersafdev',
   },
+  forestas: {
+    origin: 'https://forestas.maphub.it',
+    elasticApi: 'https://forestas.maphub.it/api/v2/elasticsearch',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'https://forestas.maphub.it/wmfe/forestas',
+  },
   forestasdev: {
     origin: 'https://forestas.dev.maphub.it',
     elasticApi: 'https://forestas.dev.maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://forestas.dev.maphub.it/wmfe/forestasdev',
+  },
+  forestasuat: {
+    origin: 'https://forestas.uat.maphub.it',
+    elasticApi: 'https://forestas.uat.maphub.it/api/v2/elasticsearch',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'https://forestas.uat.maphub.it/wmfe/forestasuat',
   },
 };
 
