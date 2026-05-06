@@ -38,25 +38,25 @@ export const shards: Shards = {
   osm2caiprod: {
     origin: 'https://osm2cai.prod.maphub.it',
     elasticApi: 'https://osm2cai.prod.maphub.it/api/v2/elasticsearch',
-    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    graphhopperHost: '',
     awsApi: 'https://r3-it.storage.cloud.it/wmfe/osm2cai2',
   },
   osm2caiuat: {
     origin: 'https://osm2cai.uat.maphub.it',
     elasticApi: 'https://osm2cai.uat.maphub.it/api/v2/elasticsearch',
-    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    graphhopperHost: '',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/osm2cai2uat',
   },
   osm2caidev: {
     origin: 'https://osm2cai.dev.maphub.it',
     elasticApi: 'https://osm2cai.dev.maphub.it/api/v2/elasticsearch',
-    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    graphhopperHost: '',
     awsApi: 'https://osm2cai.dev.maphub.it/wmfe/osm2cai2dev',
   },
   osm2cailocal: {
     origin: 'http://127.0.0.1:8000/',
     elasticApi: 'http://localhost:9200/api/v2/search',
-    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    graphhopperHost: '',
     awsApi: 'http://localhost:9002/wmfe/osm2cai2',
   },
 };
