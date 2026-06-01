@@ -6,3 +6,4 @@ export * from './privacy-agree';
 export * from './user-activity';
 export * from './posthog';
 export * from './update';
+export * from './image';
