@@ -18,7 +18,8 @@ export type ShardName =
   | 'forestas'
   | 'forestasdev'
   | 'forestasuat'
-  | 'maphub';
+  | 'maphub'
+  | 'maphubdev';
 
 export type Shards = Readonly<Record<ShardName, Shard>>;
 
@@ -149,6 +150,12 @@ export const shards: Shards = {
     elasticApi: 'https://maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://wmfe.s3.eu-central-1.amazonaws.com/maphub',
+  },
+  maphubdev: {
+    origin: 'https://dev.maphub.it',
+    elasticApi: 'https://dev.maphub.it/api/v2/elasticsearch',
+    graphhopperHost: 'https://graphhopper.webmapp.it/',
+    awsApi: 'https://dev.maphub.it/wmfe/maphubdev',
   },
 };
 
