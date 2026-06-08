@@ -2,7 +2,7 @@
  * Type for result tab selection in home component
  * Can be 'tracks', 'pois', or null if no results available
  */
-export type HomeResultTab = 'tracks' | 'pois' | null;
+export type HomeResultTab = 'tracks' | 'pois' | 'layers' | null;
 
 /**
  * Type for filter type (always has a value, never null)
