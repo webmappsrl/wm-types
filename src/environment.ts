@@ -200,4 +200,8 @@ export const redirects: Redirects = {
     shardName: 'geohub',
     appId: 60,
   },
+  'maps.valdicecinaoutdoor.it': {
+    shardName: 'geohub',
+    appId: 64,
+  },
 };
