@@ -1,4 +1,5 @@
 import {Analytics} from './config';
+import {Location} from './feature';
 
 /**
  * Interfaccia UNICA usata dal tuo codice (posthog-js like)
@@ -22,4 +23,24 @@ export interface WmPosthogConfig {
   host: string;
 }
 
-export type WmPosthogProps = Record<string, any>;
+export interface WmPosthogProps {
+  // Context props — auto-injected by PosthogContextService on every event
+  user_location?: Location;
+  layer_id?: string;
+  poi_id?: string;
+  ugc_poi_id?: string;
+  track_id?: string;
+  ugc_track_id?: string;
+  // Event-specific props
+  filter_type?: string;
+  filter_id?: string;
+  filter_name?: string;
+  slider_value?: string;
+  tab?: string;
+  content_type?: string;
+  content_id?: string;
+  query?: string;
+  results_count?: number;
+  layer_name?: string;
+  layer_label?: string;
+}
