@@ -17,6 +17,8 @@ export interface APP {
   iosStore?: string;
   sku?: string;
   name: string;
+  my_downloads?: string;
+  my_paths?: string;
   poi_acquisition_form?: any;
   track_acquisition_form?: any;
   welcome?: string;
