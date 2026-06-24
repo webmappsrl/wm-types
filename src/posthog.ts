@@ -43,4 +43,5 @@ export interface WmPosthogProps {
   results_count?: number;
   layer_name?: string;
   layer_label?: string;
+  mode?: string;
 }
