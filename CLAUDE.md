@@ -24,7 +24,7 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 
 | Feature | Ticket | Moduli toccati | Note |
 |---|---|---|---|
-| Campo `mode` in WmPosthogProps | oc:8127 | `src/posthog.ts` | Usato dal heartbeat `userOnline` in wm-core |
+| GeolocationMode + mode in WmPosthogProps | oc:8127 | `src/user-activity.ts`, `src/posthog.ts` | Tipo `GeolocationMode` condiviso tra GeolocationService e WmPosthogProps |
 | Redirect maps.valdicecinaoutdoor.it | oc:8039 | `src/environment.ts` | appId 64, shard geohub |
 
 ## Decisioni architetturali
