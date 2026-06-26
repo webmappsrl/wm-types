@@ -1,3 +1,5 @@
+export type GeolocationMode = 'navigation' | 'recording' | 'stopped';
+
 /**
  * Type for result tab selection in home component
  * Can be 'tracks', 'pois', or null if no results available

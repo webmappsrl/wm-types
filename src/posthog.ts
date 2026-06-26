@@ -1,5 +1,6 @@
 import {Analytics} from './config';
 import {Location} from './feature';
+import {GeolocationMode} from './user-activity';
 
 /**
  * Interfaccia UNICA usata dal tuo codice (posthog-js like)
@@ -43,4 +44,5 @@ export interface WmPosthogProps {
   results_count?: number;
   layer_name?: string;
   layer_label?: string;
+  mode?: GeolocationMode;
 }
