@@ -45,4 +45,6 @@ export interface WmPosthogProps {
   layer_name?: string;
   layer_label?: string;
   mode?: GeolocationMode;
+  // App-specific props
+  appName?: string;
 }
