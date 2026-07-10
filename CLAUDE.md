@@ -26,8 +26,13 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 |---|---|---|---|
 | GeolocationMode + mode in WmPosthogProps | oc:8127 | `src/user-activity.ts`, `src/posthog.ts` | Tipo `GeolocationMode` condiviso tra GeolocationService e WmPosthogProps |
 | Redirect maps.valdicecinaoutdoor.it | oc:8039 | `src/environment.ts` | appId 64, shard geohub |
+| Distanza rimanente e posizione nel profilo altimetrico | oc:8177 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showTrackRemainingDistance?: boolean`, gate del componente `wm-track-remaining-distance` in wm-core |
 
 ## Decisioni architetturali
+
+### Distanza rimanente e posizione nel profilo altimetrico (oc:8177)
+- `OPTIONS.showTrackRemainingDistance?: boolean` è opzionale (non tutti i backend `config.json` lo espongono) — il default client-side vive in `wm-core/store/conf/conf.reducer.ts`, non qui
+- Il flag copre solo il componente `wm-track-remaining-distance` in wm-core (card "distanza rimanente"), non il marker di posizione né l'aggiornamento della barra "Pendenza" sul grafico altimetrico, che restano sempre attivi indipendentemente dal valore — scelta esplicita del developer, dettagli in `wm-core/docs/features/8177-distanza-rimanente-posizione-profilo-altimetrico/notes.md`
 
 ### Redirect maps.valdicecinaoutdoor.it (oc:8039)
 - La modifica riguarda solo `redirects` in `src/environment.ts` — virtualhost e deploy sono task separati.
