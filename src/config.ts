@@ -97,6 +97,7 @@ export interface OPTIONS {
   showPoiListOffline: boolean;
   showShapefileDownload: boolean;
   showTrackRefLabel: boolean;
+  showTrackRemainingDistance?: boolean;
   showTravelMode?: boolean;
   show_searchbar?: boolean;
   skipRouteIndexDownload: boolean;
