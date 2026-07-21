@@ -107,6 +107,7 @@ export interface OPTIONS {
   trackAdoptionUrl?: string;
   trackReconnaissanceUrl?: string;
   trackRefLabelZoom: number;
+  ugcTrackShareEnabled?: boolean;
   useCaiScaleStyle: boolean;
   useFeatureClassicSelectionStyle: boolean;
   voucherUrl?: string;
