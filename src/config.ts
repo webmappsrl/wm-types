@@ -86,6 +86,7 @@ export interface OPTIONS {
   showEleMin: boolean;
   showEleTo: boolean;
   showEmbeddedHtml: boolean;
+  showFavorites?: boolean;
   showFeaturesInViewport: boolean;
   showGeojsonDownload: boolean;
   showGetDirections?: boolean;
