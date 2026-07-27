@@ -28,6 +28,7 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 | Redirect maps.valdicecinaoutdoor.it | oc:8039 | `src/environment.ts` | appId 64, shard geohub |
 | Distanza rimanente e posizione nel profilo altimetrico | oc:8177 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showTrackRemainingDistance?: boolean`, gate del componente `wm-track-remaining-distance` in wm-core |
 | Condivisione percorso registrato sui social | oc:8183 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.ugcTrackShareEnabled?: boolean`, gate del pulsante "Condividi" in `ugc-track-properties` (wm-core) |
+| Salva cammino nei preferiti | oc:8176 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showFavorites?: boolean`, gate del cuoricino preferiti su layer (wm-core) — chiave camelCase, non `show_favorites` |
 
 ## Decisioni architetturali
 
