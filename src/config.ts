@@ -1,3 +1,5 @@
+import {Language} from './language';
+
 export interface ZoomFeaturesInViewport {
   minZoomFeaturesInViewport?: number;
   maxZoomFeaturesInViewport?: number;
@@ -139,4 +141,22 @@ export interface Analytics {
   enabled: boolean;
   recordingEnabled: boolean;
   recordingProbability?: number;
+}
+
+/**
+ * Un gruppo del builder generico `properties.config_detail` (Layer/EcTrack/EcPoi),
+ * discriminato da `box_type`. Namespace di box_type concettualmente distinto da
+ * `config_home` / IBOX in wm-core: non va unito a quella union anche se in futuro
+ * potesse comparire una stringa uguale.
+ */
+export type ConfigDetailBox = ConfigDetailInfoBox;
+
+export interface ConfigDetailInfoBox {
+  box_type: 'info';
+  items?: ConfigDetailInfoBoxItem[];
+}
+
+export interface ConfigDetailInfoBoxItem {
+  title?: Partial<Record<Language, string>>;
+  content?: Partial<Record<Language, string>>;
 }

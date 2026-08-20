@@ -29,8 +29,14 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 | Distanza rimanente e posizione nel profilo altimetrico | oc:8177 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showTrackRemainingDistance?: boolean`, gate del componente `wm-track-remaining-distance` in wm-core |
 | Condivisione percorso registrato sui social | oc:8183 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.ugcTrackShareEnabled?: boolean`, gate del pulsante "Condividi" in `ugc-track-properties` (wm-core) |
 | Salva cammino nei preferiti | oc:8176 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showFavorites?: boolean`, gate del cuoricino preferiti su layer (wm-core) — chiave camelCase, non `show_favorites` |
+| Box informativi configurabili (`config_detail`) | oc:8181 | `src/config.ts` | Tipi condivisi `ConfigDetailBox` / `ConfigDetailInfoBox` / `ConfigDetailInfoBoxItem` (senza prefisso `I`); `title`/`content` come `Partial<Record<Language, string>>`. Consumati da `wm-config-detail` in wm-core |
 
 ## Decisioni architetturali
+
+### Box informativi configurabili (`config_detail`, oc:8181)
+- Tipi spostati da wm-core a wm-types (fonte di verità condivisa); naming senza prefisso `I`, coerente con `APP`/`OPTIONS`/…
+- Namespace `box_type` distinto da `config_home`/IBOX in wm-core — non unire le due union anche se in futuro comparisse una stringa uguale
+- Localizzazione di `title`/`content` via `Partial<Record<Language, string>>` (stesso pattern di `elastic.ts`), non `iLocalString` di wm-core
 
 ### Condivisione percorso registrato sui social (oc:8183)
 - Modifica minima come da piano: solo `OPTIONS.ugcTrackShareEnabled?: boolean` aggiunto in ordine alfabetico in `src/config.ts`, nessuna decisione di design autonoma — dettagli su gating e stato UI in `wm-core/docs/features/8183-condivisione-percorso-registrato-sui-social/notes.md`
