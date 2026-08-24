@@ -32,6 +32,8 @@ export interface WmPosthogProps {
   ugc_poi_id?: string;
   track_id?: string;
   ugc_track_id?: string;
+  /** Id dell'utente autenticato (IUser.id, wm-core), omesso se l'utente non è loggato. */
+  user_id?: number;
   // Event-specific props
   filter_type?: string;
   filter_id?: string;

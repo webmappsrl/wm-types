@@ -30,6 +30,7 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 | Condivisione percorso registrato sui social | oc:8183 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.ugcTrackShareEnabled?: boolean`, gate del pulsante "Condividi" in `ugc-track-properties` (wm-core) |
 | Salva cammino nei preferiti | oc:8176 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showFavorites?: boolean`, gate del cuoricino preferiti su layer (wm-core) — chiave camelCase, non `show_favorites` |
 | Box informativi configurabili (`config_detail`) | oc:8181 | `src/config.ts` | Tipi condivisi `ConfigDetailBox` / `ConfigDetailInfoBox` / `ConfigDetailInfoBoxItem` (senza prefisso `I`); `title`/`content` come `Partial<Record<Language, string>>`. Consumati da `wm-config-detail` in wm-core |
+| Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps | oc:8159 | `src/posthog.ts` | Nuovo campo opzionale `WmPosthogProps.user_id?: number`, popolato da `PosthogContextService` (wm-core) con `IUser.id` quando l'utente è loggato, omesso per utenti anonimi |
 
 ## Decisioni architetturali
 
@@ -37,6 +38,10 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 - Tipi spostati da wm-core a wm-types (fonte di verità condivisa); naming senza prefisso `I`, coerente con `APP`/`OPTIONS`/…
 - Namespace `box_type` distinto da `config_home`/IBOX in wm-core — non unire le due union anche se in futuro comparisse una stringa uguale
 - Localizzazione di `title`/`content` via `Partial<Record<Language, string>>` (stesso pattern di `elastic.ts`), non `iLocalString` di wm-core
+
+### Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps (oc:8159)
+- `user_id: number`, non stringa — a differenza degli altri id di contesto dello stesso file (`layer_id`, `track_id`, ecc., stringificati lato wm-core), scelta deliberata per restare coerente con `IUser.id: number` (wm-core, `auth.model.ts`) senza introdurre coercizioni; verificato nessun mismatch col consumer in review
+- Nessuna logica applicativa in questo repo: la popolazione effettiva del campo (selettore `auth.user`, gating su utente loggato, TODO `identify()`) vive interamente in `wm-core` — vedi CLAUDE.md di quel repo
 
 ### Condivisione percorso registrato sui social (oc:8183)
 - Modifica minima come da piano: solo `OPTIONS.ugcTrackShareEnabled?: boolean` aggiunto in ordine alfabetico in `src/config.ts`, nessuna decisione di design autonoma — dettagli su gating e stato UI in `wm-core/docs/features/8183-condivisione-percorso-registrato-sui-social/notes.md`
