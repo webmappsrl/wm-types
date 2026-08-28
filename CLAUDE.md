@@ -31,8 +31,14 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 | Salva cammino nei preferiti | oc:8176 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showFavorites?: boolean`, gate del cuoricino preferiti su layer (wm-core) — chiave camelCase, non `show_favorites` |
 | Box informativi configurabili (`config_detail`) | oc:8181 | `src/config.ts` | Tipi condivisi `ConfigDetailBox` / `ConfigDetailInfoBox` / `ConfigDetailInfoBoxItem` (senza prefisso `I`); `title`/`content` come `Partial<Record<Language, string>>`. Consumati da `wm-config-detail` in wm-core |
 | Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps | oc:8159 | `src/posthog.ts` | Nuovo campo opzionale `WmPosthogProps.user_id?: number`, popolato da `PosthogContextService` (wm-core) con `IUser.id` quando l'utente è loggato, omesso per utenti anonimi |
+| Filtri sui cammini in Home — tipi condivisi | oc:8414 | `src/config.ts` | `ROUTE_SHAPES`/`RouteShape`, `WALKING_NETWORKS`/`WalkingNetwork`, `SEASONS`/`Season` (verificati identici, stesso ordine, agli enum PHP del backend camminiditalia), `LayerAttributeValue<T>`, `LayerAttributes` (attributi filtrabili di un layer), `FilterOption`, `NumericBucket`, `RouteFilterState`, `RouteFilterKey`. Consumati da `wm-core` (`ILAYER.attributes`, componente filtri Home) |
 
 ## Decisioni architetturali
+
+### Filtri sui cammini in Home — tipi condivisi (oc:8414)
+- `FilterOption`/`NumericBucket`/`RouteFilterState`/`RouteFilterKey` erano stati scritti inizialmente in `wm-core` (`home-route-filters.utils.ts`) e spostati qui su richiesta esplicita del developer in fase di review — stesso principio già applicato a `ConfigDetailBox` (oc:8181): i tipi condivisi vivono in wm-types, wm-core li consuma.
+- **`STAGE_COUNT_BUCKETS`/`DISTANCE_BUCKETS` (soglie fisse dei bucket numerici) NON sono qui**, restano in `wm-core/projects/wm-core/src/constants/route-filters.ts`: sono costanti solo-frontend, non un vocabolario condiviso col backend come `RouteShape`/`WalkingNetwork`/`Season` — non appartengono a wm-types per definizione.
+- Valori/ordine degli enum verificati contro gli enum PHP reali del backend (branch `RDO_ass_cammini_italia_2026_2`): nessuna discrepanza. Le traduzioni non sono mai hardcoded qui né altrove per questi codici — arrivano runtime nel payload di ogni layer (`LayerAttributeValue.name`).
 
 ### Box informativi configurabili (`config_detail`, oc:8181)
 - Tipi spostati da wm-core a wm-types (fonte di verità condivisa); naming senza prefisso `I`, coerente con `APP`/`OPTIONS`/…
