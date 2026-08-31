@@ -160,3 +160,75 @@ export interface ConfigDetailInfoBoxItem {
   title?: Partial<Record<Language, string>>;
   content?: Partial<Record<Language, string>>;
 }
+
+/** Forma del percorso (oc:8180, calcolata dal backend sulla geometria delle tappe). */
+export const ROUTE_SHAPES = ['roundtrip', 'linear', 'discontinuous'] as const;
+export type RouteShape = (typeof ROUTE_SHAPES)[number];
+
+/** Portata della rete escursionistica — vocabolario OSM del tag `network`. */
+export const WALKING_NETWORKS = ['lwn', 'rwn', 'nwn', 'iwn'] as const;
+export type WalkingNetwork = (typeof WALKING_NETWORKS)[number];
+
+/** Stagioni in cui il cammino è preferibilmente percorribile. */
+export const SEASONS = ['spring', 'summer', 'autumn', 'winter'] as const;
+export type Season = (typeof SEASONS)[number];
+
+/**
+ * Valore di un attributo filtrabile: il codice stabile più le sue traduzioni. Il backend
+ * fornisce sempre entrambi — il frontend non deve tradurre i codici né conoscere gli enum
+ * del backend per mostrare le label.
+ */
+export interface LayerAttributeValue<T extends string = string> {
+  value: T;
+  name: Partial<Record<Language, string>>;
+}
+
+/**
+ * Caratteristiche di un cammino usate dai filtri Home (oc:8180, wm-package/camminiditalia).
+ * Ogni chiave è opzionale: assente significa "dato non disponibile", non zero/vuoto.
+ */
+export interface LayerAttributes {
+  /** Lunghezza totale in km — somma delle distanze delle tappe. */
+  distance?: number;
+  /** Numero di tappe del cammino. */
+  stage_count?: number;
+  /** Forma del percorso. */
+  shape?: LayerAttributeValue<RouteShape>;
+  /** Regioni attraversate (solo regioni, mai comuni). */
+  taxonomy_where?: LayerAttributeValue[];
+  /** Temi associati — vocabolario aperto, gestito dal cliente in backoffice. */
+  themes?: LayerAttributeValue[];
+  /** Portata della rete escursionistica. */
+  walking_network?: LayerAttributeValue<WalkingNetwork>;
+  /** Stagioni consigliate. */
+  season?: LayerAttributeValue<Season>[];
+}
+
+/** Una voce selezionabile in un filtro Home (oc:8414): codice stabile, etichetta risolta per la lingua attiva, numero di cammini che la soddisfano. */
+export interface FilterOption {
+  value: string;
+  label: string;
+  count: number;
+}
+
+/** Un bucket a soglia fissa per un filtro numerico Home (Lunghezza/Tappe, oc:8414). `max: null` = nessun limite superiore. */
+export interface NumericBucket {
+  id: string;
+  min: number;
+  max: number | null;
+  /** Chiave i18n dell'unità di misura mostrata accanto al numero (es. 'tappe', 'km'). */
+  unitKey: string;
+}
+
+/** Stato corrente dei 7 filtri Home "Cerca il tuo cammino" (oc:8414). Ogni chiave assente/vuota = filtro non attivo. */
+export interface RouteFilterState {
+  distance?: string[];
+  stageCount?: string[];
+  shape?: RouteShape[];
+  walkingNetwork?: WalkingNetwork[];
+  regions?: string[];
+  themes?: string[];
+  seasons?: Season[];
+}
+
+export type RouteFilterKey = keyof RouteFilterState;
