@@ -161,25 +161,6 @@ export interface ConfigDetailInfoBoxItem {
   content?: Partial<Record<Language, string>>;
 }
 
-/**
- * Payload (`detail`) del `CustomEvent('configDetailSettled')` dispacciato da `ConfigDetailComponent`
- * (wm-core) dal proprio host DOM, con `bubbles: true` — non un `@Output()` Angular, per
- * attraversare i confini di content projection senza che i componenti intermedi (`wm-home-layer`,
- * `wm-track-properties`, `wm-poi-properties`) debbano fare pass-through (oc:8427).
- *
- * Dispacciato SOLO dopo che il layout è ritenuto assestato (debounce breve dopo l'ultima
- * `transitionend` pertinente sul proprio sottoalbero, con fallback a timeout se non arriva mai —
- * vedi `ConfigDetailComponent` per i dettagli), non sincrono al click. Nessuno scroll/resize viene
- * eseguito dal componente stesso: solo il consumer (che conosce il proprio contesto di montaggio,
- * es. presenza di un pannello ridimensionabile) decide se e quando spostare la vista.
- */
-export interface ConfigDetailToggleEvent {
-  /** `true` se l'item è stato appena aperto, `false` se è stato chiuso. */
-  opening: boolean;
-  /** Elemento header (`<button>`) dell'item appena aperto, per un eventuale `scrollIntoView` del consumer. `null` in chiusura. */
-  headerElement: HTMLElement | null;
-}
-
 /** Forma del percorso (oc:8180, calcolata dal backend sulla geometria delle tappe). */
 export const ROUTE_SHAPES = ['roundtrip', 'linear', 'discontinuous'] as const;
 export type RouteShape = (typeof ROUTE_SHAPES)[number];
