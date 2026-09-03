@@ -32,8 +32,13 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 | Box informativi configurabili (`config_detail`) | oc:8181 | `src/config.ts` | Tipi condivisi `ConfigDetailBox` / `ConfigDetailInfoBox` / `ConfigDetailInfoBoxItem` (senza prefisso `I`); `title`/`content` come `Partial<Record<Language, string>>`. Consumati da `wm-config-detail` in wm-core |
 | Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps | oc:8159 | `src/posthog.ts` | Nuovo campo opzionale `WmPosthogProps.user_id?: number`, popolato da `PosthogContextService` (wm-core) con `IUser.id` quando l'utente è loggato, omesso per utenti anonimi |
 | Filtri sui cammini in Home — tipi condivisi | oc:8414 | `src/config.ts` | `ROUTE_SHAPES`/`RouteShape`, `WALKING_NETWORKS`/`WalkingNetwork`, `SEASONS`/`Season` (verificati identici, stesso ordine, agli enum PHP del backend camminiditalia), `LayerAttributeValue<T>`, `LayerAttributes` (attributi filtrabili di un layer), `FilterOption`, `NumericBucket`, `RouteFilterState`, `RouteFilterKey`. Consumati da `wm-core` (`ILAYER.attributes`, componente filtri Home) |
+| Accordion wm-config-detail: rimozione tipo `ConfigDetailToggleEvent` | oc:8458 | `src/config.ts` | Tipo introdotto in oc:8427 (payload di `CustomEvent('configDetailSettled')`) rimosso: nessun consumer lo referenzia più dopo che wm-core smette di dispacciare l'evento e webmapp-app smette di ascoltarlo (apertura multipla per `wm-config-detail`, scroll automatico eliminato). `ConfigDetailBox`/`ConfigDetailInfoBox`/`ConfigDetailInfoBoxItem` (oc:8181) restano invariati |
 
 ## Decisioni architetturali
+
+### Accordion wm-config-detail: rimozione tipo `ConfigDetailToggleEvent` (oc:8458)
+- Rimozione (non deprecazione) di un tipo introdotto solo un ciclo prima (oc:8427) — coerente con la policy di rimozione pulita già applicata in questo progetto (repo principale, oc:8382): un tipo senza consumer va rimosso, non lasciato come debito silenzioso.
+- **Ordine di esecuzione vincolato**: il tipo va rimosso da qui solo dopo che sia wm-core sia webmapp-app hanno smesso di importarlo — un bump del submodule wm-types che precedesse quel commit romperebbe la build TS di chi sincronizza in quell'ordine. Guardia esplicita (`grep -rn "ConfigDetailToggleEvent"` sull'intero albero sorgente) eseguita prima della rimozione in questo ciclo.
 
 ### Filtri sui cammini in Home — tipi condivisi (oc:8414)
 - `FilterOption`/`NumericBucket`/`RouteFilterState`/`RouteFilterKey` erano stati scritti inizialmente in `wm-core` (`home-route-filters.utils.ts`) e spostati qui su richiesta esplicita del developer in fase di review — stesso principio già applicato a `ConfigDetailBox` (oc:8181): i tipi condivisi vivono in wm-types, wm-core li consuma.
