@@ -26,8 +26,41 @@ Quando la webapp viene caricata da un dominio presente in `redirects`, usa autom
 |---|---|---|---|
 | GeolocationMode + mode in WmPosthogProps | oc:8127 | `src/user-activity.ts`, `src/posthog.ts` | Tipo `GeolocationMode` condiviso tra GeolocationService e WmPosthogProps |
 | Redirect maps.valdicecinaoutdoor.it | oc:8039 | `src/environment.ts` | appId 64, shard geohub |
+| Distanza rimanente e posizione nel profilo altimetrico | oc:8177 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showTrackRemainingDistance?: boolean`, gate del componente `wm-track-remaining-distance` in wm-core |
+| Condivisione percorso registrato sui social | oc:8183 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.ugcTrackShareEnabled?: boolean`, gate del pulsante "Condividi" in `ugc-track-properties` (wm-core) |
+| Salva cammino nei preferiti | oc:8176 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showFavorites?: boolean`, gate del cuoricino preferiti su layer (wm-core) — chiave camelCase, non `show_favorites` |
+| Box informativi configurabili (`config_detail`) | oc:8181 | `src/config.ts` | Tipi condivisi `ConfigDetailBox` / `ConfigDetailInfoBox` / `ConfigDetailInfoBoxItem` (senza prefisso `I`); `title`/`content` come `Partial<Record<Language, string>>`. Consumati da `wm-config-detail` in wm-core |
+| Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps | oc:8159 | `src/posthog.ts` | Nuovo campo opzionale `WmPosthogProps.user_id?: number`, popolato da `PosthogContextService` (wm-core) con `IUser.id` quando l'utente è loggato, omesso per utenti anonimi |
+| Filtri sui cammini in Home — tipi condivisi | oc:8414 | `src/config.ts` | `ROUTE_SHAPES`/`RouteShape`, `WALKING_NETWORKS`/`WalkingNetwork`, `SEASONS`/`Season` (verificati identici, stesso ordine, agli enum PHP del backend camminiditalia), `LayerAttributeValue<T>`, `LayerAttributes` (attributi filtrabili di un layer), `FilterOption`, `NumericBucket`, `RouteFilterState`, `RouteFilterKey`. Consumati da `wm-core` (`ILAYER.attributes`, componente filtri Home) |
+| Accordion wm-config-detail: rimozione tipo `ConfigDetailToggleEvent` | oc:8458 | `src/config.ts` | Tipo introdotto in oc:8427 (payload di `CustomEvent('configDetailSettled')`) rimosso: nessun consumer lo referenzia più dopo che wm-core smette di dispacciare l'evento e webmapp-app smette di ascoltarlo (apertura multipla per `wm-config-detail`, scroll automatico eliminato). `ConfigDetailBox`/`ConfigDetailInfoBox`/`ConfigDetailInfoBoxItem` (oc:8181) restano invariati |
 
 ## Decisioni architetturali
+
+### Accordion wm-config-detail: rimozione tipo `ConfigDetailToggleEvent` (oc:8458)
+- Rimozione (non deprecazione) di un tipo introdotto solo un ciclo prima (oc:8427) — coerente con la policy di rimozione pulita già applicata in questo progetto (repo principale, oc:8382): un tipo senza consumer va rimosso, non lasciato come debito silenzioso.
+- **Ordine di esecuzione vincolato**: il tipo va rimosso da qui solo dopo che sia wm-core sia webmapp-app hanno smesso di importarlo — un bump del submodule wm-types che precedesse quel commit romperebbe la build TS di chi sincronizza in quell'ordine. Guardia esplicita (`grep -rn "ConfigDetailToggleEvent"` sull'intero albero sorgente) eseguita prima della rimozione in questo ciclo.
+
+### Filtri sui cammini in Home — tipi condivisi (oc:8414)
+- `FilterOption`/`NumericBucket`/`RouteFilterState`/`RouteFilterKey` erano stati scritti inizialmente in `wm-core` (`home-route-filters.utils.ts`) e spostati qui su richiesta esplicita del developer in fase di review — stesso principio già applicato a `ConfigDetailBox` (oc:8181): i tipi condivisi vivono in wm-types, wm-core li consuma.
+- **`STAGE_COUNT_BUCKETS`/`DISTANCE_BUCKETS` (soglie fisse dei bucket numerici) NON sono qui**, restano in `wm-core/projects/wm-core/src/constants/route-filters.ts`: sono costanti solo-frontend, non un vocabolario condiviso col backend come `RouteShape`/`WalkingNetwork`/`Season` — non appartengono a wm-types per definizione.
+- Valori/ordine degli enum verificati contro gli enum PHP reali del backend (branch `RDO_ass_cammini_italia_2026_2`): nessuna discrepanza. Le traduzioni non sono mai hardcoded qui né altrove per questi codici — arrivano runtime nel payload di ogni layer (`LayerAttributeValue.name`).
+
+### Box informativi configurabili (`config_detail`, oc:8181)
+- Tipi spostati da wm-core a wm-types (fonte di verità condivisa); naming senza prefisso `I`, coerente con `APP`/`OPTIONS`/…
+- Namespace `box_type` distinto da `config_home`/IBOX in wm-core — non unire le due union anche se in futuro comparisse una stringa uguale
+- Localizzazione di `title`/`content` via `Partial<Record<Language, string>>` (stesso pattern di `elastic.ts`), non `iLocalString` di wm-core
+
+### Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps (oc:8159)
+- `user_id: number`, non stringa — a differenza degli altri id di contesto dello stesso file (`layer_id`, `track_id`, ecc., stringificati lato wm-core), scelta deliberata per restare coerente con `IUser.id: number` (wm-core, `auth.model.ts`) senza introdurre coercizioni; verificato nessun mismatch col consumer in review
+- Nessuna logica applicativa in questo repo: la popolazione effettiva del campo (selettore `auth.user`, gating su utente loggato, TODO `identify()`) vive interamente in `wm-core` — vedi CLAUDE.md di quel repo
+
+### Condivisione percorso registrato sui social (oc:8183)
+- Modifica minima come da piano: solo `OPTIONS.ugcTrackShareEnabled?: boolean` aggiunto in ordine alfabetico in `src/config.ts`, nessuna decisione di design autonoma — dettagli su gating e stato UI in `wm-core/docs/features/8183-condivisione-percorso-registrato-sui-social/notes.md`
+- Nessun default client-side impostato altrove per questo campo: resta `undefined` finché un backend non lo valorizza esplicitamente via `config.json`
+
+### Distanza rimanente e posizione nel profilo altimetrico (oc:8177)
+- `OPTIONS.showTrackRemainingDistance?: boolean` è opzionale (non tutti i backend `config.json` lo espongono) — il default client-side vive in `wm-core/store/conf/conf.reducer.ts`, non qui
+- Il flag copre solo il componente `wm-track-remaining-distance` in wm-core (card "distanza rimanente"), non il marker di posizione né l'aggiornamento della barra "Pendenza" sul grafico altimetrico, che restano sempre attivi indipendentemente dal valore — scelta esplicita del developer, dettagli in `wm-core/docs/features/8177-distanza-rimanente-posizione-profilo-altimetrico/notes.md`
 
 ### Redirect maps.valdicecinaoutdoor.it (oc:8039)
 - La modifica riguarda solo `redirects` in `src/environment.ts` — virtualhost e deploy sono task separati.
