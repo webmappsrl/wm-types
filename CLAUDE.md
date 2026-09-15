@@ -74,3 +74,4 @@ sottostringa e l'ordine di deploy che altrimenti produce `appId = NaN`.
 | Lavoro | Ticket | In breve |
 |---|---|---|
 | Redirect `maps.valdicecinaoutdoor.it` | oc:8039 | Una entry in `redirects` (appId 64, shard geohub). Il meccanismo sta in `## Architettura`, la procedura in `docs/howto/aggiungere-un-redirect.md`, le trappole nella rule. `docs/features/8039-aggiornare-web-app-maps-valdicecinaoutdoor-it/` |
+| `address` e `address_link` in `WmProperties` | oc:8406 | Due campi **derivati lato client**, non inviati dal backend: `derivePoiAddress()` in wm-core li compone da `addr_complete`/`addr_locality`/`addr_street`. Sono distinti — `, ` per il testo mostrato, `+` per l'URL di Maps. `docs/features/8406-unificare-componenti-dettaglio-ecpoi/` |
