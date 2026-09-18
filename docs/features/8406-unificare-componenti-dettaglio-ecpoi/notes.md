@@ -38,3 +38,22 @@ Nessuna. Il contributo è di quattro righe ed è andato come previsto.
 - Tipizzare `related_url` come union (`string | string[] | Record<string, string>`): il caso più
   frequente da coprire è l'array vuoto, 2.572 POI, non la stringa.
 - Tipizzare `taxonomyWheres` (array di stringhe, ordinato regione → provincia → comune).
+
+## `address_link` è stato rimosso: la motivazione era sbagliata
+
+Questi documenti sostengono che i campi debbano essere due, e che «dichiararne uno solo avrebbe
+rotto il link». **Non è vero**, e l'ha fatto notare una review esterna.
+
+`address_link` unisce con `+` per pre-codificare gli spazi, ma chi costruisce il link — `wm-address`
+in wm-core — passa il valore per `encodeURIComponent`, che trasforma quei `+` in `%2B`: un più
+letterale dentro l'indirizzo. Con `addr_complete = "Via Roma 1, Pisa"` Google riceveva
+`daddr=Via%2BRoma%2B1%2C%2BPisa` invece di `Via%20Roma%201%2C%20Pisa`. Le due codifiche si
+annullavano a vicenda, e il campo pensato per proteggere il link era esattamente ciò che lo rompeva.
+
+Il difetto viveva sul percorso EC, cioè quello principale: il ramo UGC era già stato portato su
+`address` in precedenza, e la divergenza fra i due è ciò che ha reso il problema visibile.
+
+Corretto costruendo il link da `address`, e rimosso `address_link` da tutta la catena — l'input di
+`wm-address`, il binding nel template, il valore restituito da `derivePoiAddress`, e infine questa
+dichiarazione. L'ordine è quello che la regola del repo impone: prima smettono di usarlo i
+consumer, poi il tipo sparisce.

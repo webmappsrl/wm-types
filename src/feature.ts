@@ -63,8 +63,6 @@ export interface WmProperties {
   app_id: string;
   /** Indirizzo display (backend o derivato client da addr_*). */
   address?: string;
-  /** Indirizzo URL-safe per link mappe (join `+`). */
-  address_link?: string;
   createdAt?: Date;
   device: WmDeviceInfo;
   form?: {[key: string]: any};
