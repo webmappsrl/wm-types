@@ -1,68 +1,76 @@
-# CLAUDE.md — wm-types
+# wm-types — CLAUDE.md
 
-## Stack
+## Cos'è questo repo
 
-- Tipi TypeScript condivisi tra `wm-core`, `map-core` e `wm-webapp`
-- Nessuna logica applicativa — solo interfacce, tipi e costanti
+Tipi TypeScript condivisi: interfacce, tipi e costanti, senza alcuna logica applicativa. È il
+livello base della catena di dipendenze e non dipende da nessuno.
+
+È un **submodule Git** con quattro consumer: i due prodotti — `webmapp-app` (sotto
+`core/src/app/shared/wm-types`) e `wm-webapp` (sotto `src/app/shared/wm-types`) — e i due
+submodule che stanno loro accanto, `wm-core` e `map-core`, che lo importano come `@wm-types/…`.
+
+L'unica dipendenza è TypeScript: non ci sono dipendenze applicative, e l'unico script è la build.
+
+## Regole del repo
+
+- **Nessuna logica applicativa: solo interfacce, tipi e costanti.** Se serve un default, un
+  selettore o una funzione, il posto è il consumer — anche quando aggiungerlo qui sarebbe più
+  comodo. È la ragione per cui questo repo esiste.
+- **Un tipo esportato si rimuove solo dopo che tutti i consumer hanno smesso di importarlo.** Un
+  bump del submodule fatto prima rompe la build TypeScript di chi sincronizza in quell'ordine, e i
+  consumer sono quattro. La guardia è un `grep` sull'intero albero sorgente prima di togliere la
+  riga.
+- **Una modifica qui arriva a tutti e quattro.** Non esiste una modifica «solo per un prodotto».
+
+## Comandi
+
+| Cosa | Comando |
+|---|---|
+| Compilare (type-check) | `npm run build` (`tsc`) |
+| Test | **nessuno**: `package.json` non configura né test né lint. I tipi si verificano compilando, e il comportamento si prova nei consumer |
+
+## Convenzioni
+
+- **Gli ID dei ticket hanno la forma `oc:<numero>`** e vengono da Orchestrator. Ogni documento
+  sotto `docs/features/` inizia con `> Ticket: oc:<ID>`, e lo slug della cartella è
+  `<ID>-<titolo-in-kebab-case>`. Lo scope dei commit porta il ticket: `feat(oc:<ID>): …`.
+- **I tipi non hanno il prefisso `I`**: si chiamano `APP`, `OPTIONS`, `ConfigDetailBox`. La vecchia
+  convenzione è in via di abbandono e non va reintrodotta.
+- **La localizzazione di un campo si scrive `Partial<Record<Language, string>>`**, non con tipi che
+  vivono in un consumer.
+- **`docs/` ha tre destinazioni**: `features/` è il cantiere di un lavoro (com'è andato,
+  immutabile), `knowledge/` la conoscenza per argomento (perché funziona così), `howto/` le
+  procedure. Le trappole non stanno in nessuna delle tre: stanno in `.claude/rules/`.
+- **Documentazione, commenti e messaggi di commit sono in italiano**, i termini tecnici in inglese.
 
 ## Architettura
 
-`wm-types` è il livello base della catena di dipendenze: `wm-types` → `wm-core` → `wm-webapp`.
+Il file principale è `src/environment.ts`, che contiene il tipo `Environment` e le interfacce
+correlate (`Shard`, `Redirect`, `ShardName`), la costante `shards` — la mappa dei backend per ogni
+shard (geohub, maphub, osm2cai…) — e la costante `redirects`, che mappa i domini custom su
+`{shardName, appId}`.
 
-Il file principale è `src/environment.ts`, che contiene:
-- Tipo `Environment` e interfacce correlate (`Shard`, `Redirect`, `ShardName`)
-- Costante `shards` — mappa dei backend per ogni shard (geohub, maphub, osm2cai, ecc.)
-- Costante `redirects` — mappa domini custom → `{shardName, appId}`
+Caricando la webapp da un dominio presente in `redirects`, l'app usa l'`appId` e lo `shardName`
+dichiarati lì invece dei default. Per aggiungerne uno:
+[docs/howto/aggiungere-un-redirect.md](docs/howto/aggiungere-un-redirect.md).
 
-### Meccanismo redirects
+## Conoscenza
 
-Quando la webapp viene caricata da un dominio presente in `redirects`, usa automaticamente l'`appId` e lo `shardName` specificati anziché quelli di default. Il matching avviene tramite `hostname.includes(key)` (sottostringa).
-
-**Per aggiungere un nuovo dominio custom:** aggiungere una entry all'oggetto `redirects` in `src/environment.ts`, poi allineare il submodule in `wm-webapp`.
-
-## Feature disponibili
-
-| Feature | Ticket | Moduli toccati | Note |
+| Argomento | Cosa copre | Ticket | Pagina |
 |---|---|---|---|
-| GeolocationMode + mode in WmPosthogProps | oc:8127 | `src/user-activity.ts`, `src/posthog.ts` | Tipo `GeolocationMode` condiviso tra GeolocationService e WmPosthogProps |
-| Redirect maps.valdicecinaoutdoor.it | oc:8039 | `src/environment.ts` | appId 64, shard geohub |
-| Distanza rimanente e posizione nel profilo altimetrico | oc:8177 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showTrackRemainingDistance?: boolean`, gate del componente `wm-track-remaining-distance` in wm-core |
-| Condivisione percorso registrato sui social | oc:8183 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.ugcTrackShareEnabled?: boolean`, gate del pulsante "Condividi" in `ugc-track-properties` (wm-core) |
-| Salva cammino nei preferiti | oc:8176 | `src/config.ts` | Nuovo campo opzionale `OPTIONS.showFavorites?: boolean`, gate del cuoricino preferiti su layer (wm-core) — chiave camelCase, non `show_favorites` |
-| Box informativi configurabili (`config_detail`) | oc:8181 | `src/config.ts` | Tipi condivisi `ConfigDetailBox` / `ConfigDetailInfoBox` / `ConfigDetailInfoBoxItem` (senza prefisso `I`); `title`/`content` come `Partial<Record<Language, string>>`. Consumati da `wm-config-detail` in wm-core |
-| Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps | oc:8159 | `src/posthog.ts` | Nuovo campo opzionale `WmPosthogProps.user_id?: number`, popolato da `PosthogContextService` (wm-core) con `IUser.id` quando l'utente è loggato, omesso per utenti anonimi |
-| Filtri sui cammini in Home — tipi condivisi | oc:8414 | `src/config.ts` | `ROUTE_SHAPES`/`RouteShape`, `WALKING_NETWORKS`/`WalkingNetwork`, `SEASONS`/`Season` (verificati identici, stesso ordine, agli enum PHP del backend camminiditalia), `LayerAttributeValue<T>`, `LayerAttributes` (attributi filtrabili di un layer), `FilterOption`, `NumericBucket`, `RouteFilterState`, `RouteFilterKey`. Consumati da `wm-core` (`ILAYER.attributes`, componente filtri Home) |
-| Accordion wm-config-detail: rimozione tipo `ConfigDetailToggleEvent` | oc:8458 | `src/config.ts` | Tipo introdotto in oc:8427 (payload di `CustomEvent('configDetailSettled')`) rimosso: nessun consumer lo referenzia più dopo che wm-core smette di dispacciare l'evento e webmapp-app smette di ascoltarlo (apertura multipla per `wm-config-detail`, scroll automatico eliminato). `ConfigDetailBox`/`ConfigDetailInfoBox`/`ConfigDetailInfoBoxItem` (oc:8181) restano invariati |
+| Box informativi (`config_detail`) | Tipi dei box, localizzazione, il tipo rimosso in oc:8458 | oc:8181, oc:8427, oc:8458 | [docs/knowledge/config-detail.md](docs/knowledge/config-detail.md) |
+| Filtri sui cammini in Home | Vocabolario condiviso col backend, e cosa resta invece in `wm-core` | oc:8414 | [docs/knowledge/filtri-home.md](docs/knowledge/filtri-home.md) |
+| Flag opzionali di `OPTIONS` | I flag esposti dal `config.json`, con il rimando a chi li usa | oc:8176, oc:8177, oc:8183 | [docs/knowledge/opzioni-config-json.md](docs/knowledge/opzioni-config-json.md) |
+| Props degli eventi PostHog | `user_id` e `GeolocationMode`, e perché la popolazione sta altrove | oc:8127, oc:8159 | [docs/knowledge/posthog-props.md](docs/knowledge/posthog-props.md) |
 
-## Decisioni architetturali
+## Trappole
 
-### Accordion wm-config-detail: rimozione tipo `ConfigDetailToggleEvent` (oc:8458)
-- Rimozione (non deprecazione) di un tipo introdotto solo un ciclo prima (oc:8427) — coerente con la policy di rimozione pulita già applicata in questo progetto (repo principale, oc:8382): un tipo senza consumer va rimosso, non lasciato come debito silenzioso.
-- **Ordine di esecuzione vincolato**: il tipo va rimosso da qui solo dopo che sia wm-core sia webmapp-app hanno smesso di importarlo — un bump del submodule wm-types che precedesse quel commit romperebbe la build TS di chi sincronizza in quell'ordine. Guardia esplicita (`grep -rn "ConfigDetailToggleEvent"` sull'intero albero sorgente) eseguita prima della rimozione in questo ciclo.
+Stanno in `.claude/rules/tipi-condivisi.md`, che si carica quando si tocca `src/`: l'ordine di
+rimozione di un tipo, le chiavi di `OPTIONS` in camelCase, il matching dei redirect per
+sottostringa e l'ordine di deploy che altrimenti produce `appId = NaN`.
 
-### Filtri sui cammini in Home — tipi condivisi (oc:8414)
-- `FilterOption`/`NumericBucket`/`RouteFilterState`/`RouteFilterKey` erano stati scritti inizialmente in `wm-core` (`home-route-filters.utils.ts`) e spostati qui su richiesta esplicita del developer in fase di review — stesso principio già applicato a `ConfigDetailBox` (oc:8181): i tipi condivisi vivono in wm-types, wm-core li consuma.
-- **`STAGE_COUNT_BUCKETS`/`DISTANCE_BUCKETS` (soglie fisse dei bucket numerici) NON sono qui**, restano in `wm-core/projects/wm-core/src/constants/route-filters.ts`: sono costanti solo-frontend, non un vocabolario condiviso col backend come `RouteShape`/`WalkingNetwork`/`Season` — non appartengono a wm-types per definizione.
-- Valori/ordine degli enum verificati contro gli enum PHP reali del backend (branch `RDO_ass_cammini_italia_2026_2`): nessuna discrepanza. Le traduzioni non sono mai hardcoded qui né altrove per questi codici — arrivano runtime nel payload di ogni layer (`LayerAttributeValue.name`).
+## Lavori senza una pagina dedicata
 
-### Box informativi configurabili (`config_detail`, oc:8181)
-- Tipi spostati da wm-core a wm-types (fonte di verità condivisa); naming senza prefisso `I`, coerente con `APP`/`OPTIONS`/…
-- Namespace `box_type` distinto da `config_home`/IBOX in wm-core — non unire le due union anche se in futuro comparisse una stringa uguale
-- Localizzazione di `title`/`content` via `Partial<Record<Language, string>>` (stesso pattern di `elastic.ts`), non `iLocalString` di wm-core
-
-### Tracciamento bacino di utenza per cammino — user_id in WmPosthogProps (oc:8159)
-- `user_id: number`, non stringa — a differenza degli altri id di contesto dello stesso file (`layer_id`, `track_id`, ecc., stringificati lato wm-core), scelta deliberata per restare coerente con `IUser.id: number` (wm-core, `auth.model.ts`) senza introdurre coercizioni; verificato nessun mismatch col consumer in review
-- Nessuna logica applicativa in questo repo: la popolazione effettiva del campo (selettore `auth.user`, gating su utente loggato, TODO `identify()`) vive interamente in `wm-core` — vedi CLAUDE.md di quel repo
-
-### Condivisione percorso registrato sui social (oc:8183)
-- Modifica minima come da piano: solo `OPTIONS.ugcTrackShareEnabled?: boolean` aggiunto in ordine alfabetico in `src/config.ts`, nessuna decisione di design autonoma — dettagli su gating e stato UI in `wm-core/docs/features/8183-condivisione-percorso-registrato-sui-social/notes.md`
-- Nessun default client-side impostato altrove per questo campo: resta `undefined` finché un backend non lo valorizza esplicitamente via `config.json`
-
-### Distanza rimanente e posizione nel profilo altimetrico (oc:8177)
-- `OPTIONS.showTrackRemainingDistance?: boolean` è opzionale (non tutti i backend `config.json` lo espongono) — il default client-side vive in `wm-core/store/conf/conf.reducer.ts`, non qui
-- Il flag copre solo il componente `wm-track-remaining-distance` in wm-core (card "distanza rimanente"), non il marker di posizione né l'aggiornamento della barra "Pendenza" sul grafico altimetrico, che restano sempre attivi indipendentemente dal valore — scelta esplicita del developer, dettagli in `wm-core/docs/features/8177-distanza-rimanente-posizione-profilo-altimetrico/notes.md`
-
-### Redirect maps.valdicecinaoutdoor.it (oc:8039)
-- La modifica riguarda solo `redirects` in `src/environment.ts` — virtualhost e deploy sono task separati.
-- Il matching usa `hostname.includes()`: subdomain come `www.maps.valdicecinaoutdoor.it` matchano automaticamente (non è un problema se il DNS per `www.` non è configurato).
-- Il redirect deve essere deployato prima che il virtualhost punti alla nuova webapp: in caso contrario l'app riceve `NaN` come `appId`.
+| Lavoro | Ticket | In breve |
+|---|---|---|
+| Redirect `maps.valdicecinaoutdoor.it` | oc:8039 | Una entry in `redirects` (appId 64, shard geohub). Il meccanismo sta in `## Architettura`, la procedura in `docs/howto/aggiungere-un-redirect.md`, le trappole nella rule. `docs/features/8039-aggiornare-web-app-maps-valdicecinaoutdoor-it/` |
