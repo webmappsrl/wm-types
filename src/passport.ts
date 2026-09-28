@@ -46,8 +46,8 @@ export interface PassportCertificationRequest {
   layerId: number;
   /** Almeno un'immagine della credenziale cartacea (`images[]` nel multipart); il massimo lo fissa il frontend. */
   photos: Blob[];
-  /** Seriale o altre informazioni identificative, opzionale (`notes` nel multipart). */
-  notes?: string;
+  /** Numero seriale della credenziale, opzionale: non tutti i cammini lo emettono (`serial_number` nel multipart). */
+  serialNumber?: string;
   /** Accettazione del disclaimer (`disclaimer_accepted` nel multipart). */
   disclaimerAccepted: true;
 }
