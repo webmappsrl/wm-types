@@ -74,3 +74,4 @@ sottostringa e l'ordine di deploy che altrimenti produce `appId = NaN`.
 | Lavoro | Ticket | In breve |
 |---|---|---|
 | Redirect `maps.valdicecinaoutdoor.it` | oc:8039 | Una entry in `redirects` (appId 64, shard geohub). Il meccanismo sta in `## Architettura`, la procedura in `docs/howto/aggiungere-un-redirect.md`, le trappole nella rule. `docs/features/8039-aggiornare-web-app-maps-valdicecinaoutdoor-it/` |
+| Contratto API del passaporto | oc:8166 | `src/passport.ts`: progresso del cammino e richiesta di certificazione, ipotizzati dal frontend in attesa del backend camminiditalia; solo gli stati usati oggi (`none`, `pending`). Il perché sta in wm-core, `docs/knowledge/8166-passaporto-camminatore-validazione-credenziale-cartacea.md`. `docs/features/8166-passaporto-camminatore-validazione-credenziale-cartacea/` |
