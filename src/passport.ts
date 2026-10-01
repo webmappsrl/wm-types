@@ -30,15 +30,22 @@ export interface PassportProgress {
   stages: PassportStage[];
 }
 
-/** Stato della richiesta di certificazione: `none` = nessuna richiesta inviata. */
-export type PassportCertificationStatus = 'none' | 'pending';
+/**
+ * Stato dell'ultima richiesta di certificazione: `none` = nessuna richiesta inviata; `approved` e
+ * `rejected` sono la decisione, definitiva, del gestore del cammino (oc:8671).
+ */
+export type PassportCertificationStatus = 'none' | 'pending' | 'approved' | 'rejected';
 
 /** Risposta di `GET /api/layer/{layer}/certification` e di `POST` sulla stessa rotta. */
 export interface PassportCertification {
   layerId: number;
   status: PassportCertificationStatus;
-  /** Data ISO 8601 dell'invio, presente solo se `status === 'pending'`. */
+  /** Data ISO 8601 dell'invio, presente per ogni stato diverso da `none`. */
   submittedAt?: string;
+  /** Data ISO 8601 della decisione del gestore, solo per `approved` e `rejected`. */
+  decidedAt?: string;
+  /** Nota del gestore, solo per `approved` e `rejected`, assente se non l'ha scritta. */
+  decisionNote?: string;
 }
 
 /** Corpo di `POST /api/layer/{layer}/certification`, inviato come multipart. */
