@@ -1,19 +1,30 @@
+import {Language} from './language';
+
 /**
- * Contratto API del passaporto del camminatore (oc:8166).
+ * Contratto API del passaporto del camminatore (oc:8166, oc:8671, oc:8676).
  *
- * Il backend camminiditalia non esiste ancora: questi tipi descrivono il contratto ipotizzato
- * dal frontend e sono la base del ticket backend collegato. Coprono solo gli stati usati in
- * questo ciclo: approvazione e rifiuto arriveranno con i ticket successivi.
+ * Descrive le risposte del backend camminiditalia: `GET /api/layer/{layer}/progress` per le tappe
+ * riconosciute (oc:8676) e `/api/layer/{layer}/certification` per la richiesta di certificazione.
+ * `in_progress` e `percent` servono alla validazione GPS di oc:8165, quando il backend manderà
+ * valori di `progress` intermedi.
  */
 
 /** Stato di una tappa (track del layer) per l'utente corrente. */
 export type PassportStageStatus = 'completed' | 'in_progress' | 'not_started';
 
+/** Origine della validazione di una tappa: credenziale cartacea o GPS (oc:8165). */
+export type PassportStageSource = 'manual' | 'gps';
+
 /** Una tappa del cammino con il suo stato di avanzamento. */
 export interface PassportStage {
   trackId: number;
-  name: string;
+  /** Nome della tappa nelle lingue disponibili; può essere vuoto. */
+  name: Partial<Record<Language, string>>;
   status: PassportStageStatus;
+  /** Lunghezza della tappa in km; 0 se il dato manca. */
+  distance: number;
+  /** Origine della validazione, presente solo se `status === 'completed'`. */
+  source?: PassportStageSource;
   /** Data ISO 8601 del completamento, presente solo se `status === 'completed'`. */
   completedAt?: string;
   /** Percentuale 0-100, presente solo se `status === 'in_progress'`. */
@@ -27,6 +38,8 @@ export interface PassportProgress {
   completedStages: number;
   /** Percentuale intera 0-100. */
   percent: number;
+  /** Cammino completato secondo il backend: fa fede questo, non `percent`. */
+  completed: boolean;
   stages: PassportStage[];
 }
 
