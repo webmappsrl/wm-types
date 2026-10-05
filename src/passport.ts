@@ -44,6 +44,35 @@ export interface PassportProgress {
 }
 
 /**
+ * Avanzamento di un cammino in `GET /api/passport` (oc:8701): elenca solo i cammini con almeno una
+ * tappa validata dall'utente. Serve all'anello sulle card dei cammini.
+ */
+export interface PassportRoute {
+  layerId: number;
+  validated: number;
+  total: number;
+  /** Percentuale intera 0-100, calcolata dal backend. */
+  percent: number;
+  completed: boolean;
+}
+
+/**
+ * Tappe validate dall'utente su tutti i cammini iniziati (oc:8701), per il chip sulle card delle
+ * tappe.
+ */
+export interface PassportStageIndex {
+  /** Data ISO 8601 della validazione, per `trackId`. */
+  completedAt: Map<number, string>;
+  /** Cammini iniziati la cui `/progress` non ha mai risposto: le loro tappe sono incerte. */
+  pendingLayers: Set<number>;
+}
+
+/** Stato mostrato dal chip su una card di tappa (oc:8701). */
+export type PassportStageChip =
+  | {status: 'completed'; completedAt: string}
+  | {status: 'not_started'};
+
+/**
  * Stato dell'ultima richiesta di certificazione: `none` = nessuna richiesta inviata; `approved` e
  * `rejected` sono la decisione, definitiva, del gestore del cammino (oc:8671).
  */
