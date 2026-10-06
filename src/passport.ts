@@ -29,6 +29,20 @@ export interface PassportStage {
   completedAt?: string;
   /** Percentuale 0-100, presente solo se `status === 'in_progress'`. */
   percent?: number;
+  /** Identificativo di riferimento della tappa. */
+  ref?: string;
+  /** Punto di partenza della tappa. */
+  from?: string;
+  /** Punto di arrivo della tappa. */
+  to?: string;
+  /** Dislivello positivo della tappa in metri. */
+  ascent?: number;
+  /** Dislivello negativo della tappa in metri. */
+  descent?: number;
+  /** URL della miniatura della tappa. */
+  image?: string;
+  /** Indica se la tappa è condivisibile. */
+  shareable?: boolean;
 }
 
 /** Avanzamento di un cammino (layer) per l'utente corrente. */

@@ -61,7 +61,7 @@ dichiarati lì invece dei default. Per aggiungerne uno:
 | Box informativi (`config_detail`) | Tipi dei box, localizzazione, il tipo rimosso in oc:8458 | oc:8181, oc:8427, oc:8458 | [docs/knowledge/config-detail.md](docs/knowledge/config-detail.md) |
 | Filtri sui cammini in Home | Vocabolario condiviso col backend, e cosa resta invece in `wm-core` | oc:8414 | [docs/knowledge/filtri-home.md](docs/knowledge/filtri-home.md) |
 | Flag opzionali di `OPTIONS` | I flag esposti dal `config.json`, con il rimando a chi li usa | oc:8176, oc:8177, oc:8183 | [docs/knowledge/opzioni-config-json.md](docs/knowledge/opzioni-config-json.md) |
-| Props degli eventi PostHog | `user_id` e `GeolocationMode`, e perché la popolazione sta altrove | oc:8127, oc:8159 | [docs/knowledge/posthog-props.md](docs/knowledge/posthog-props.md) |
+| Props degli eventi PostHog | `user_id`, `GeolocationMode` e `share_method`, e perché la popolazione sta altrove | oc:8127, oc:8159, oc:8702 | [docs/knowledge/posthog-props.md](docs/knowledge/posthog-props.md) |
 
 ## Trappole
 
