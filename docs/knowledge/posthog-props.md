@@ -5,7 +5,7 @@
 
 ## Come funziona oggi
 
-`WmPosthogProps` (`src/posthog.ts`) espone `user_id?: number`, opzionale e omesso per gli utenti anonimi. `GeolocationMode` (`src/user-activity.ts`) è la union `'navigation' | 'recording' | 'stopped'`, condivisa fra `GeolocationService` e il campo `mode` delle props.
+`WmPosthogProps` (`src/posthog.ts`) espone `user_id?: number`, opzionale e omesso per gli utenti anonimi. `share_method?: WmShareMethod` dice come è stata compiuta una condivisione, usato con `contentShared` (oc:8702). `GeolocationMode` (`src/user-activity.ts`) è la union `'navigation' | 'recording' | 'stopped'`, condivisa fra `GeolocationService` e il campo `mode` delle props.
 
 ## Perché così
 
