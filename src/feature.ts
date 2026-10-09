@@ -24,6 +24,39 @@ export interface LineStringProperties extends WmProperties {
   locations: Location[];
   name: string;
   media: Media[];
+  /** Dati tecnici calcolati dal server (oc:8742); assente sulle tracce senza `locations`. */
+  stats?: UgcTrackStats;
+}
+
+/**
+ * Dati tecnici di una traccia UGC, scritti solo dal server. Un valore non calcolabile è `null`,
+ * mai `0`. Specifica: wm-package, `docs/knowledge/dati-tecnici-delle-tracce-ugc.md`.
+ */
+export interface UgcTrackStats {
+  /** km, 2 decimali */
+  distance: number;
+  /** minuti interi, dal primo all'ultimo punto tenuto */
+  duration: number | null;
+  /** minuti interi, solo i tratti in movimento */
+  duration_moving: number | null;
+  /** km/h, 1 decimale */
+  avg_speed: number | null;
+  /** km/h, 1 decimale */
+  max_speed: number | null;
+  /** m, dal DEM: `null` finché il job DEM non ha girato */
+  ascent: number | null;
+  /** m, dal DEM */
+  descent: number | null;
+  /** m s.l.m., dal DEM */
+  ele_min: number | null;
+  /** m s.l.m., dal DEM */
+  ele_max: number | null;
+  /** m s.l.m., dal DEM */
+  ele_from: number | null;
+  /** m s.l.m., dal DEM */
+  ele_to: number | null;
+  /** data e ora UTC, ISO 8601 al secondo */
+  computed_at: string;
 }
 
 export interface Location {
