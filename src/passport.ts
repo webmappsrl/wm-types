@@ -58,8 +58,8 @@ export interface PassportProgress {
 }
 
 /**
- * Avanzamento di un cammino in `GET /api/passport` (oc:8701): elenca solo i cammini con almeno una
- * tappa validata dall'utente. Serve all'anello sulle card dei cammini.
+ * Avanzamento di un cammino in `GET /api/passport` (oc:8701, oc:8763). Elenca i cammini con il
+ * passaporto acceso, anche senza tappe convalidate. Serve all'anello sulle card dei cammini.
  */
 export interface PassportRoute {
   layerId: number;
@@ -68,17 +68,19 @@ export interface PassportRoute {
   /** Percentuale intera 0-100, calcolata dal backend. */
   percent: number;
   completed: boolean;
+  /** Tappe validate: id tappa → data ISO 8601 della validazione. Vuoto se nessuna tappa è convalidata. */
+  validatedTracks: Record<number, string>;
 }
 
 /**
- * Tappe validate dall'utente su tutti i cammini iniziati (oc:8701), per il chip sulle card delle
- * tappe.
+ * Tappe validate dall'utente su tutti i cammini con il passaporto acceso (oc:8701, oc:8763), per il
+ * chip sulle card delle tappe.
  */
 export interface PassportStageIndex {
   /** Data ISO 8601 della validazione, per `trackId`. */
   completedAt: Map<number, string>;
-  /** Cammini iniziati la cui `/progress` non ha mai risposto: le loro tappe sono incerte. */
-  pendingLayers: Set<number>;
+  /** Cammini con il passaporto acceso: il chip sulla tappa vale solo se la tappa sta in uno di essi. */
+  enabledLayers: Set<number>;
 }
 
 /** Stato mostrato dal chip su una card di tappa (oc:8701). */
