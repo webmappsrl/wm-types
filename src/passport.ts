@@ -113,6 +113,10 @@ export interface PassportCertificationRequest {
   photos: Blob[];
   /** Numero seriale della credenziale, opzionale: non tutti i cammini lo emettono (`serial_number` nel multipart). */
   serialNumber?: string;
+  /** Data in cui il camminatore ha iniziato il cammino, `AAAA-MM-GG`, data locale (`start_date` nel multipart). */
+  startDate: string;
+  /** Data in cui il camminatore ha finito il cammino, `AAAA-MM-GG`, data locale (`end_date` nel multipart). */
+  endDate: string;
   /** Accettazione del disclaimer (`disclaimer_accepted` nel multipart). */
   disclaimerAccepted: true;
 }
