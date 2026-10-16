@@ -24,6 +24,14 @@ export interface WmPosthogConfig {
   host: string;
 }
 
+/**
+ * Modo in cui l'utente ha completato una condivisione, per la prop `share_method` di
+ * `contentShared` (oc:8702): `native-share` foglio di sistema nativo, `web-share`
+ * `navigator.share()` del browser, `download` file scaricato, `open-image` immagine aperta in una
+ * nuova scheda (ripiego quando il file non si può scaricare).
+ */
+export type WmShareMethod = 'native-share' | 'web-share' | 'download' | 'open-image';
+
 export interface WmPosthogProps {
   // Context props — auto-injected by PosthogContextService on every event
   user_location?: Location;
@@ -42,6 +50,8 @@ export interface WmPosthogProps {
   tab?: string;
   content_type?: string;
   content_id?: string;
+  /** Come si è completata la condivisione (`contentShared`, oc:8702). */
+  share_method?: WmShareMethod;
   query?: string;
   results_count?: number;
   layer_name?: string;

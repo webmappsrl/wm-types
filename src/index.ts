@@ -7,3 +7,4 @@ export * from './user-activity';
 export * from './posthog';
 export * from './update';
 export * from './image';
+export * from './passport';

@@ -61,7 +61,7 @@ dichiarati lì invece dei default. Per aggiungerne uno:
 | Box informativi (`config_detail`) | Tipi dei box, localizzazione, il tipo rimosso in oc:8458 | oc:8181, oc:8427, oc:8458 | [docs/knowledge/config-detail.md](docs/knowledge/config-detail.md) |
 | Filtri sui cammini in Home | Vocabolario condiviso col backend, e cosa resta invece in `wm-core` | oc:8414 | [docs/knowledge/filtri-home.md](docs/knowledge/filtri-home.md) |
 | Flag opzionali di `OPTIONS` | I flag esposti dal `config.json`, con il rimando a chi li usa | oc:8176, oc:8177, oc:8183 | [docs/knowledge/opzioni-config-json.md](docs/knowledge/opzioni-config-json.md) |
-| Props degli eventi PostHog | `user_id` e `GeolocationMode`, e perché la popolazione sta altrove | oc:8127, oc:8159 | [docs/knowledge/posthog-props.md](docs/knowledge/posthog-props.md) |
+| Props degli eventi PostHog | `user_id`, `GeolocationMode` e `share_method`, e perché la popolazione sta altrove | oc:8127, oc:8159, oc:8702 | [docs/knowledge/posthog-props.md](docs/knowledge/posthog-props.md) |
 
 ## Trappole
 
@@ -74,4 +74,5 @@ sottostringa e l'ordine di deploy che altrimenti produce `appId = NaN`.
 | Lavoro | Ticket | In breve |
 |---|---|---|
 | Redirect `maps.valdicecinaoutdoor.it` | oc:8039 | Una entry in `redirects` (appId 64, shard geohub). Il meccanismo sta in `## Architettura`, la procedura in `docs/howto/aggiungere-un-redirect.md`, le trappole nella rule. `docs/features/8039-aggiornare-web-app-maps-valdicecinaoutdoor-it/` |
+| Contratto API del passaporto | oc:8166, oc:8763, oc:8761 | `src/passport.ts`: progresso del cammino e richiesta di certificazione, ipotizzati dal frontend in attesa del backend camminiditalia; solo gli stati usati oggi (`none`, `pending`). Da oc:8763 `PassportRoute` descrive un cammino col passaporto acceso. Da oc:8761 la richiesta porta `startDate` ed `endDate`. Il perché sta in wm-core, `docs/knowledge/8166-passaporto-camminatore-validazione-credenziale-cartacea.md`. `docs/features/8166-passaporto-camminatore-validazione-credenziale-cartacea/` |
 | `address` in `WmProperties` | oc:8406 | Campo **derivato lato client**, non inviato dal backend: `derivePoiAddress()` in wm-core lo compone da `addr_complete`/`addr_locality`/`addr_street`. Nasceva insieme a un `address_link` unito da `+` per l'URL di Maps, rimosso nello stesso ticket: chi costruisce quel link usa `encodeURIComponent`, che trasforma i `+` in `%2B`. `docs/features/8406-unificare-componenti-dettaglio-ecpoi/` |
