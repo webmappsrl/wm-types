@@ -1,3 +1,5 @@
+import {AwsVersions} from './aws';
+
 export type Redirects = Readonly<Record<string, Redirect>>;
 
 export type ShardName =
@@ -36,6 +38,7 @@ export interface Shard {
   readonly elasticApi: string;
   readonly graphhopperHost: string;
   readonly awsApi: string;
+  readonly awsVersions?: AwsVersions;
 }
 export interface Redirect {
   readonly shardName: ShardName;
@@ -138,6 +141,7 @@ export const shards: Shards = {
     elasticApi: 'https://forestas.dev.maphub.it/api/v2/elasticsearch',
     graphhopperHost: 'https://graphhopper.webmapp.it/',
     awsApi: 'https://forestas.dev.maphub.it/wmfe/forestasdev',
+    awsVersions: {tracks: 'v1'},
   },
   forestasuat: {
     origin: 'https://forestas.uat.maphub.it',
