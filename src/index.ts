@@ -8,3 +8,5 @@ export * from './posthog';
 export * from './update';
 export * from './image';
 export * from './passport';
+export * from './taxonomy';
+export * from './aws';
